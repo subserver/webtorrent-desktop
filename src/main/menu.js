@@ -297,6 +297,16 @@ function getMenuTemplate () {
       ]
     },
     {
+      label: 'Search',
+      submenu: [
+        {
+          label: 'Search',
+          accelerator: 'CmdOrCtrl+S',
+          click: () => windows.main.dispatch('search', true)
+        }
+      ]
+    },
+    {
       label: 'Help',
       role: 'help',
       submenu: [

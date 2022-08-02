@@ -81,6 +81,7 @@ function getDefaultState () {
     getPlayingFileSummary,
     getExternalPlayerName,
     getGlobalTrackers,
+    getSearchSources,
     shouldHidePlayerControls
   }
 }
@@ -210,6 +211,10 @@ function getGlobalTrackers () {
     return defaultAnnounceList
   }
   return trackers
+}
+
+function getSearchSources() {
+  return this.saved.prefs.searchSources || [];
 }
 
 async function load (cb) {

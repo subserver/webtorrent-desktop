@@ -33,10 +33,15 @@ class PreferencesPage extends React.Component {
     this.handleSetGlobalTrackers =
       this.handleSetGlobalTrackers.bind(this)
 
+    this.handleSetSearchSources =
+      this.handleSetSearchSources.bind(this)
+
     const globalTrackers = this.props.state.getGlobalTrackers().join('\n')
+    const searchSources = this.props.state.getSearchSources().join('\n')
 
     this.state = {
-      globalTrackers
+      globalTrackers,
+      searchSources
     }
   }
 
@@ -272,6 +277,38 @@ class PreferencesPage extends React.Component {
     dispatch('updateGlobalTrackers', announceList)
   }
 
+  setSearchSources () {
+    // Align the text fields
+    const textFieldStyle = { width: '100%' }
+    const textareaStyle = { margin: 0 }
+
+    return (
+      <Preference>
+        <TextField
+          className='search-sources control'
+          style={textFieldStyle}
+          textareaStyle={textareaStyle}
+          multiLine
+          rows={2}
+          rowsMax={10}
+          value={this.state.searchSources}
+          onChange={this.handleSetSearchSources}
+        />
+      </Preference>
+    )
+  }
+
+  handleSetSearchSources (e, searchSources) {
+    this.setState({ searchSources })
+
+    const searchList = searchSources
+      .split('\n')
+      .map((s) => s.trim())
+      .filter((s) => s !== '')
+
+    dispatch('updatePreferences', 'searchSources', searchList)
+  }
+
   render () {
     const style = {
       color: colors.grey400,
@@ -299,6 +336,9 @@ class PreferencesPage extends React.Component {
         </PreferencesSection>
         <PreferencesSection title='Trackers'>
           {this.setGlobalTrackers()}
+        </PreferencesSection>
+        <PreferencesSection title='Search Sources'>
+          {this.setSearchSources()}
         </PreferencesSection>
       </div>
     )
